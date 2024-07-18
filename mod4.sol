@@ -15,25 +15,25 @@ contract DegenGamingToken is ERC20, Ownable {
 
     Item[] public items;
 
-    mapping(address => Item[]) public playerItems;
+    mapping(address => Item[]) public redeemedItems;
 
     constructor(address initialOwner) ERC20(_tokenName, _tokenSymbol) Ownable(initialOwner) {
         items.push(Item("Concealer", 100 * 10 ** decimals()));
         items.push(Item("Foundation", 150 * 10 ** decimals()));
         items.push(Item("Lipstick", 50 * 10 ** decimals()));
-        items.push(Item("Eyeshadow Pallete", 200 * 10 ** decimals()));
+        items.push(Item("Eyeshadow Palette", 200 * 10 ** decimals()));
         items.push(Item("Mascara", 70 * 10 ** decimals()));
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
-
-    function redeem(uint256 itemId, address to) public {
+    //removed address from redeem
+    function redeem(uint256 itemId) public {
         require(itemId < items.length, "Invalid item ID");
         Item memory item = items[itemId];
         _burn(msg.sender, item.price);
-        playerItems[to].push(item); 
+        redeemedItems[msg.sender].push(item);
     }
 
     function burn(uint256 amount) public {
@@ -49,14 +49,8 @@ contract DegenGamingToken is ERC20, Ownable {
         Item storage item = items[itemId];
         return (item.name, item.price);
     }
-
-    function getPlayerItems(address player) public view returns (Item[] memory) {
-        return playerItems[player];
-    }
-
-    function confirmItemDelivery(address player, uint256 itemId) public view returns (string memory itemName, uint256 price, bool delivered) {
-        require(itemId < playerItems[player].length, "Invalid item ID");
-        Item memory item = playerItems[player][itemId];
-        return (item.name, item.price, true);
+    //added this to confirm if user got the item
+    function getRedeemedItems(address user) public view returns (Item[] memory) {
+        return redeemedItems[user];
     }
 }
