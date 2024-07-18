@@ -13,7 +13,7 @@ This includes ERC20 functionalities and the requirements of the assesment.
 
 - **Minting**: Only the contract owner can mint new tokens.
 - **Transferring**: Standard ERC20 token transfer functionality.
-- **Redeeming**: Players can redeem tokens for items in the in-game store. And added functionality where it keeps track of the items being sent.
+- **Redeeming**: Players can redeem tokens for items in the in-game store, -users can now see the items they have redeemed.-
 - **Burning**: Anyone can burn their own tokens.
 - **getPlayerItems:** Allows you to see a specific accounts items.
 - **confirmItemDelivery:** Allows you to see if a specific account has a specific item.
