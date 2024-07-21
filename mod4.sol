@@ -28,7 +28,7 @@ contract DegenGamingToken is ERC20, Ownable {
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
-    //removed address from redeem
+
     function redeem(uint256 itemId) public {
         require(itemId < items.length, "Invalid item ID");
         Item memory item = items[itemId];
@@ -49,8 +49,14 @@ contract DegenGamingToken is ERC20, Ownable {
         Item storage item = items[itemId];
         return (item.name, item.price);
     }
-    //added this to confirm if user got the item
+
     function getRedeemedItems(address user) public view returns (Item[] memory) {
         return redeemedItems[user];
+    }
+
+    // Explicitly added transfer function
+    function transfer(address recipient, uint256 amount) public override returns (bool) {
+        _transfer(_msgSender(), recipient, amount);
+        return true;
     }
 }
